@@ -57,30 +57,30 @@ resource "aws_security_group_rule" "alb_https" {
 }
 
 resource "aws_security_group_rule" "appserver_http" {
-  type              = "ingress"
-  from_port         = 80
-  to_port           = 80
-  protocol          = "tcp"
+  type                     = "ingress"
+  from_port                = 80
+  to_port                  = 80
+  protocol                 = "tcp"
   source_security_group_id = data.aws_security_group.alb.id
-  security_group_id = data.aws_security_group.appserver.id
+  security_group_id        = data.aws_security_group.appserver.id
 }
 
 resource "aws_security_group_rule" "appserver_ssh" {
-  type              = "ingress"
-  from_port         = 22
-  to_port           = 22
-  protocol          = "tcp"
+  type                     = "ingress"
+  from_port                = 22
+  to_port                  = 22
+  protocol                 = "tcp"
   source_security_group_id = data.aws_security_group.bastion.id
-  security_group_id = data.aws_security_group.appserver.id
+  security_group_id        = data.aws_security_group.appserver.id
 }
 
 resource "aws_security_group_rule" "rdsdb_appserver" {
-  type              = "ingress"
-  from_port         = 3306
-  to_port           = 3306
-  protocol          = "tcp"
+  type                     = "ingress"
+  from_port                = 3306
+  to_port                  = 3306
+  protocol                 = "tcp"
   source_security_group_id = data.aws_security_group.appserver.id
-  security_group_id = data.aws_security_group.rds.id
+  security_group_id        = data.aws_security_group.rds.id
 }
 
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/vpc
@@ -216,7 +216,7 @@ data "aws_subnets" "dmz_subnets" {
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl_association
 resource "aws_network_acl_association" "dmz_subnets" {
   network_acl_id = data.aws_network_acls.dmz.ids[0]
-  for_each = toset(data.aws_subnets.dmz_subnets.ids)
+  for_each       = toset(data.aws_subnets.dmz_subnets.ids)
   subnet_id      = each.key
 }
 
@@ -279,7 +279,7 @@ data "aws_subnets" "applayer_subnets" {
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl_association
 resource "aws_network_acl_association" "applayer_subnets" {
   network_acl_id = data.aws_network_acls.applayer.ids[0]
-  for_each = toset(data.aws_subnets.applayer_subnets.ids)
+  for_each       = toset(data.aws_subnets.applayer_subnets.ids)
   subnet_id      = each.key
 }
 
@@ -342,7 +342,7 @@ data "aws_subnets" "dblayer_subnets" {
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl_association
 resource "aws_network_acl_association" "dblayer_subnets" {
   network_acl_id = data.aws_network_acls.dblayer.ids[0]
-  for_each = toset(data.aws_subnets.dblayer_subnets.ids)
+  for_each       = toset(data.aws_subnets.dblayer_subnets.ids)
   subnet_id      = each.key
 }
 
